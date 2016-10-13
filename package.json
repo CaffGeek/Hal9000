@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Hal9000",
   "author": "CaffGeek", 
+  "main": "run.js",
+  "scripts": {
+    "start": "node run.js"
+  },
   "dependencies": {
     "async": "^1.4.1",
     "progress": "^1.1.8",
