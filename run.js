@@ -1,3 +1,5 @@
+'use strict';
+
 var config = require('./config.js');
 
 console.log('config.bot_api_key=%s', config.bot_api_key);
