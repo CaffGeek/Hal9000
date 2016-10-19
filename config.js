@@ -1,6 +1,6 @@
 var config = {};
 
-config.bot_api_key = process.env.BOT_API_KEY || 'slack_api_key';
-config.botname = process.env.BOT_NAME || 'my_bot_name';
+config.bot_api_key = process.env.SLACK_TOKEN || 'slack_api_key';
+config.botname = process.env.BOT_NAME || 'hal9000';
 
 module.exports = config;
