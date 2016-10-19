@@ -2,7 +2,7 @@
   "name": "hal9000",
   "version": "1.0.0",
   "description": "Hal9000",
-  "author": "CaffGeek", 
+  "author": "CaffGeek",
   "main": "run.js",
   "scripts": {
     "start": "node run.js"
