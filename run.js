@@ -8,6 +8,7 @@ require('skellington')({
 	slackToken: config.bot_api_key,
 	plugins: [
 		require('./lib/hush/hush.js'),
-		require('./lib/status/status.js')
+		require('./lib/status/status.js'),
+		require('./lib/whereis/whereis.js')
 	]
 });
