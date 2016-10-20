@@ -9,6 +9,7 @@ require('skellington')({
 	plugins: [
 		require('./lib/hush/hush.js'),
 		require('./lib/status/status.js'),
-		require('./lib/whereis/whereis.js')
+		require('./lib/whereis/whereis.js'),
+		require('./lib/whereis/remember.js')
 	]
 });
