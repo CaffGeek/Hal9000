@@ -2,6 +2,7 @@
 
 ##Remember plugin workflow
 
+```
   @you: @hal9000 remember https://google.com
   @hal9000: Should I remember this just for *you*, this *channel*, or *everyone*
   @you: everyone
@@ -15,5 +16,4 @@
   @hal9000: Got it, please enter another. When you are done, say "done".
   @you: done
   @hal9000: Got it, thanks. To train more phrases, just ask me to remember again.
-  
-  
+```
