@@ -5,7 +5,7 @@ var config = require('./config.js');
 console.log('config.bot_api_key=%s', config.bot_api_key);
 
 require('skellington')({
-  	json_file_store: 'hal9000_storage.json',
+  	json_file_store: './storage',
 	slackToken: config.bot_api_key,
 	plugins: [
 		require('./lib/hush/hush.js'),
