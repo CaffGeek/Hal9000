@@ -1,6 +1,7 @@
 'use strict';
 
 var config = require('./config.js');
+var simple_storage = require('./simple_storage.js');
 
 console.log('config.bot_api_key=%s', config.bot_api_key);
 

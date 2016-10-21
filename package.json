@@ -8,6 +8,7 @@
     "start": "node run.js"
   },
   "dependencies": {
-    "skellington": "^0.1.0"
+    "skellington": "^0.1.0",
+    "jfs": "^0.2.6"
   }
 }
