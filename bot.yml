@@ -1,3 +1,6 @@
 name: Hal9000
 description: Hal9000 running on BeepBoop
 avatar: resources/hal.jpg
+config:
+  - name: AzureStorageKey
+    global: true
