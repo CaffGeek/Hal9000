@@ -14,7 +14,7 @@ module.exports = function(config) {
 
     blobService.createContainerIfNotExists(config.azureContainerName, 
         function(error, result, response) {
-            if (!error) {
+            if (error) {
                 console.log('ERROR CREATING CONTAINER "%s"', config.azureContainerName);
                 console.log(error);
             } else {
