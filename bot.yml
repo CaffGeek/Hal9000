@@ -2,5 +2,7 @@ name: Hal9000
 description: Hal9000 running on BeepBoop
 avatar: resources/hal.jpg
 config:
-  - name: AzureStorageKey
+  - name: AZURE_STORAGE_CONNECTION_STRING
+    global: true
+  - name: AZURE_STORAGE_CONTAINER_NAME
     global: true

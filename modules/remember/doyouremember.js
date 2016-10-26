@@ -6,8 +6,17 @@ module.exports = {
         var token = message.match[1];
 
         controller.storage.teams.get('remember', function(err, data) {
+          console.log('err %s', err);
+          console.log('data %s', data);
+          console.log('token %s', token);
+          console.log('data[token] %s', data[token]);
+          
           data = data || { id: 'remember' };
           let location = data[token];
+          console.log('data %s', data);
+          console.log('token %s', token);
+          console.log('data[token] %s', data[token]);
+          console.log('location %s', location);
 
           let response = (location) 
             ? `${token} can be found at ${location}.`
