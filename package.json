@@ -8,7 +8,8 @@
     "start": "node run.js"
   },
   "dependencies": {
-    "skellington": "^0.1.0",
-    "jfs": "^0.2.6"
+    "azure-storage": "^1.3.1",
+    "jfs": "^0.2.6",
+    "skellington": "^0.1.0"
   }
 }
