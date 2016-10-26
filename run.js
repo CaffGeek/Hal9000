@@ -13,7 +13,6 @@ require('skellington')({
 		require('./modules/status/status.js'),
 
 		require('./modules/remember/remember.js'),
-		require('./modules/remember/doyouremember.js'),
-		require('./modules/remember/whatdoyouremember.js')
+		require('./modules/remember/doyouremember.js')
 	]
 });
