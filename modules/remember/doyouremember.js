@@ -2,7 +2,7 @@
 
 module.exports = {
   init: (controller) => {
-    controller.hears('do you remember (.*)', 'direct_mention', (bot, message) => {
+    controller.hears('^do you remember (.*)', 'direct_mention', (bot, message) => {
         var token = message.match[1];
 
         controller.storage.teams.get('remember', function(err, data) {
