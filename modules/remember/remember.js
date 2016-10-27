@@ -14,7 +14,12 @@ function train(what, phrases) {
 
 module.exports = {
   init: (controller) => {
-    //TODO: Reload training from db
+    controller.storage.teams.all(function(err,data){
+        data.facts.forEach(function(fact) {
+          train(fact.what, fact.how);
+        });
+      });
+
     controller
       .hears('^remember (.*)', 'direct_mention', (bot, message) => {
           let thingToRemember = message.match[1];

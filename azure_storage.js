@@ -51,27 +51,33 @@ module.exports = function(config) {
             JSON.stringify(data), cb);
     };
 
+    var all = function(cb) {
+        blobService.listBlobsSegmented(
+            config.azureContainerName,
+            null,            
+            function (err, result, response) {
+                result.entries.forEach(function(entry) {
+                    get(entry.name, cb);
+                });
+                console.log(`continuationToke: ${result.continuationToken}`);
+            });
+    };
+
     var storage = {
         teams: {
             get: get,
             save: save,
-            all: function(cb) {
-                teams_db.all(objectsToList(cb));
-            }
+            all: all
         },
         users: {
             get: get,
             save: save,
-            all: function(cb) {
-                users_db.all(objectsToList(cb));
-            }
+            all: all
         },
         channels: {
             get: get,
             save: save,
-            all: function(cb) {
-                channels_db.all(objectsToList(cb));
-            }
+            all: all
         }
     };
 
