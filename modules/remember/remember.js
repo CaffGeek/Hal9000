@@ -84,6 +84,8 @@ module.exports = {
       })
       .hears('.*', ['direct_message','direct_mention','mention'], (bot, message) => {        
         var guesses = classifier.getClassifications(message.text.toLowerCase());
+
+        //TODO: check security scope
         var guess = guesses.reduce(function (x, y) {
           return x && x.value > y.value ? x : y;
         });
@@ -97,11 +99,9 @@ module.exports = {
         console.log('Interpretation: ', interpretation);
             
         if (interpretation.guess) {
-          console.log('\o/');
           bot.reply(message, 'Are you looking for ' + interpretation.guess);
         } else {
-          console.log(':`()');
-          bot.reply(message, 'Hmm... I couldn\'t tell what you said...');
+          bot.reply(message, `I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
           bot.reply(message, '```\n' + JSON.stringify(interpretation, null, 2) + '\n```');
         }
       });
