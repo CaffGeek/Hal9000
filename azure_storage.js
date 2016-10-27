@@ -56,6 +56,9 @@ module.exports = function(config) {
             config.azureContainerName,
             null,            
             function (err, result, response) {
+                if (!result || !result.entries) 
+                    return;
+
                 result.entries.forEach(function(entry) {
                     get(entry.name, cb);
                 });
