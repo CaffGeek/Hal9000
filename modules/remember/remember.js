@@ -18,8 +18,9 @@ module.exports = {
     controller
       .hears('^remember (.*)', 'direct_mention', (bot, message) => {
           let thingToRemember = message.match[1];
-          let team = 'remember'; //TODO: bot.identifyTeam();
 
+          console.log(JSON.stringify(message, null, 2));
+          
           var askWho = function(response, convo) {
             convo.ask('Should I remember this just for _you_, this _channel_, or _everyone_?', 
               function(response, convo) {
@@ -51,21 +52,32 @@ module.exports = {
 
             train(fact.what, fact.how);
 
-            //TODO: save facts...
-            // controller.storage.teams.get(team, function(err, data) {
-            //   data = data || { id: team };
-            //   data[token] = location;
+            var storageContainer = controller.storage.users;
+            var storageId = message.user;
 
-            //   controller.storage.teams.save(data, function(err) {
-            //     let response = `I will remember that ${token} can be found at ${location}.`;
-            //     bot.reply(message, response);
-            //   });
-            // });
+            console.log(`responses.who = ${responses.who}`);
+
+            if (responses.who == "everyone") {
+              storageContainer = controller.storage.teams;
+              storageId = message.team;
+            } else if (responses.who == "channel") {
+              storageContainer = controller.storage.channels;
+              storageId = message.channel;
+            }
+
+            storageContainer.get(storageId, function(err, data) {
+              data = data || { id: storageId, facts: [] };
+              data.facts.push(fact);
+
+              storageContainer.save(data, function(err) {                
+                bot.reply(message, "Got it!");
+              });
+            });
           };
 
           bot.startConversation(message, askWho);
       })
-      .hears('.*', 'direct_mention', (bot, message) => {        
+      .hears('.*', ['direct_message','direct_mention','mention'], (bot, message) => {        
         var guesses = classifier.getClassifications(message.text.toLowerCase());
         var guess = guesses.reduce(function (x, y) {
           return x && x.value > y.value ? x : y;

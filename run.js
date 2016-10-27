@@ -11,8 +11,6 @@ require('skellington')({
 	plugins: [
 		require('./modules/hush/hush.js'),
 		require('./modules/status/status.js'),
-
-		require('./modules/remember/remember.js'),
-		require('./modules/remember/doyouremember.js')
+		require('./modules/remember/remember.js')
 	]
 });

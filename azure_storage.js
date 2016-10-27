@@ -35,45 +35,40 @@ module.exports = function(config) {
     //     };
     // };
     
+    var get = function(id, cb) {
+        blobService.getBlobToText(
+            config.azureContainerName, 
+            id, 
+            function(err, data) {
+                cb(err, JSON.parse(data))
+            });
+    };
+
+    var save = function(data, cb) {
+        blobService.createBlockBlobFromText(
+            config.azureContainerName, 
+            data.id, 
+            JSON.stringify(data), cb);
+    };
+
     var storage = {
         teams: {
-            get: function(team_id, cb) {
-                blobService.getBlobToText(
-                    config.azureContainerName, 
-                    team_id, 
-                    function(err, data) {
-                        cb(err, JSON.parse(data))
-                    });
-            },
-            save: function(team_data, cb) {
-                blobService.createBlockBlobFromText(
-                    config.azureContainerName, 
-                    team_data.id, 
-                    JSON.stringify(team_data), cb);
-            },
+            get: get,
+            save: save,
             all: function(cb) {
-                console.log('...in teams.all');
-                //teams_db.all(objectsToList(cb));
+                teams_db.all(objectsToList(cb));
             }
         },
         users: {
-            get: function(user_id, cb) {
-                users_db.get(user_id, cb);
-            },
-            save: function(user, cb) {
-                users_db.save(user.id, user, cb);
-            },
+            get: get,
+            save: save,
             all: function(cb) {
                 users_db.all(objectsToList(cb));
             }
         },
         channels: {
-            get: function(channel_id, cb) {
-                channels_db.get(channel_id, cb);
-            },
-            save: function(channel, cb) {
-                channels_db.save(channel.id, channel, cb);
-            },
+            get: get,
+            save: save,
             all: function(cb) {
                 channels_db.all(objectsToList(cb));
             }
