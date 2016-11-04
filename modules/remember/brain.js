@@ -5,6 +5,7 @@ var NLP = require('natural');
 module.exports = Brain;
 
 function Brain() {
+	console.log('Brain initializing!')
   this.classifier = new NLP.LogisticRegressionClassifier();
   this.minConfidence = 0.7;
 }
