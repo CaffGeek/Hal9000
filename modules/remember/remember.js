@@ -1,7 +1,8 @@
 'use strict';
 
 var trainer = require('./trainer.js');
-var brain = require('./brain.js');
+var Brain = require('./brain.js');
+var brain = new Brain();
 
 module.exports = {
   init: (controller) => {
