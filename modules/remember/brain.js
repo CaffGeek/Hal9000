@@ -1,30 +1,35 @@
 'use strict';
 
 var NLP = require('natural');
-var classifier = new NLP.LogisticRegressionClassifier();
 
-module.exports = brain;
+module.exports = Brain;
 
-var brain = {
-	remember: function (what, phrases) {
-		phrases.forEach(function(phrase) {
-			console.log('Ingesting example for ' + what + ': ' + phrase);
-			classifier.addDocument(phrase.toLowerCase(), what);
-		});
-		
-		classifier.train();
-	},
-	recall: function(message) {
-		var guesses = classifier.getClassifications(message.toLowerCase());
+function Brain() {
+  this.classifier = new NLP.LogisticRegressionClassifier();
+  this.minConfidence = 0.7;
+}
 
-        //TODO: check security scope
-        var guess = guesses.reduce(function (x, y) {
-          return x && x.value > y.value ? x : y;
-        });
+Brain.prototype.remember = function (what, phrases) {
+	phrases.forEach(function (phrase) {
+		console.log('Ingesting example for ' + what + ': ' + phrase);
+		this.classifier.addDocument(phrase.toLowerCase(), what);
+	}).bind(this);
 
-        return {
-          probabilities: guesses,
-          guess: guess.value > 0.7 ? guess.label : null
-        };
-	}
+	classifier.train();
+
+	return this;
+};
+
+Brain.prototype.recall = function(message) {
+	var guesses = classifier.getClassifications(message.toLowerCase());
+
+	//TODO: check security scope
+	var guess = guesses.reduce(function (x, y) {
+				return x && x.value > y.value ? x : y;
+	});
+
+	return {
+				probabilities: guesses,
+				guess: guess.value > 0.7 ? guess.label : null
+	};
 };
