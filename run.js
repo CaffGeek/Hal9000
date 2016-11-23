@@ -9,8 +9,8 @@ require('skellington')({
   	storage: storage(),
 	slackToken: config.bot_api_key,
 	plugins: [
-		require('./modules/hush/hush.js'),
-		require('./modules/status/status.js'),
-		require('./modules/remember/remember.js')
+		require('./modules/hush/index.js'),
+		require('./modules/status/index.js'),
+		require('./modules/remember/index.js')
 	]
 });
