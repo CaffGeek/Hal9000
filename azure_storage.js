@@ -62,7 +62,8 @@ module.exports = function(config) {
                 result.entries.forEach(function(entry) {
                     get(entry.name, cb);
                 });
-                console.log(`continuationToke: ${result.continuationToken}`);
+                
+                console.log(`continuationToken: ${result.continuationToken}`);
             });
     };
 

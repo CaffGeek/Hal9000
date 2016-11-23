@@ -1,25 +1,26 @@
 'use strict';
 
-var trainer = require('./trainer.js');
+var Trainer = require('./trainer.js');
 var Brain = require('./brain.js');
 
 module.exports = {
   init: (controller) => {
     var brain = new Brain();
+    var trainer = new Trainer();
 
-    controller.storage.teams.all(function(err,data){
+    controller.storage.teams.all(function(err,data) {
         data.facts.forEach(function(fact) {
           console.log('Reloading past memories')
-          brain.remember(fact.what, fact.how);
+          brain.remember(fact);
         });
       });
 
     controller
-      .hears('^remember (.*)', 'direct_mention', (bot, message) => {          
-          trainer.train(brain, bot, message);
+      .hears('^remember (.*)', ['direct_message','direct_mention','mention'], (bot, message) => {
+          trainer.train(brain, bot, message, controller);
       })
       .hears('.*', ['direct_message','direct_mention','mention'], (bot, message) => {
-        var recollection = brain.recall(message.text);
+        var recollection = brain.recall(message);
         
         console.log('Heard: ' + message.text);
         console.log('Recollection: ', recollection);

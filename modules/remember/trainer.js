@@ -1,67 +1,70 @@
 'use strict';
 
-module.exports = trainer;
+module.exports = Trainer;
 
-var trainer = {
-	train: function (brain, bot, message) {
-		console.log(JSON.stringify(message, null, 2));
+function Trainer() { }
 
-		let thingToRemember = message.match[1];
+Trainer.prototype.train = function (brain, bot, message, controller) {
+	console.log(JSON.stringify(message, null, 2));
 
-		var askWho = function (response, convo) {
-			convo.ask('Should I remember this just for _you_, this _channel_, or _everyone_?',
-				function (response, convo) {
-					convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
-					askHow(response, convo);
+	let thingToRemember = message.match[1];
+
+	var askWho = function (response, convo) {
+		
+		//TODO: only give "you/me" option if IN a direct_message with the bot
+
+		convo.ask('Should I remember this just for _you_, this _channel_, or _everyone_?',
+			function (response, convo) {
+				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
+				askHow(response, convo);
+				convo.next();
+			}, { key: 'who', multiple: false });
+	};
+
+	var askHow = function (response, convo) {
+		convo.ask('I need some example phrases people will use to find this, say "done" to finish.',
+			function (response, convo) {
+				if (response.text == 'done') {
+					remember(response, convo);
 					convo.next();
-				}, { key: 'who', multiple: false });
+				}
+			}, { key: 'how', multiple: true });
+	};
+
+	var remember = function (response, convo) {
+		var storageContainer = controller.storage.users;
+		var storageId = message.user;
+
+		var responses = convo.extractResponses();
+		console.log(`responses.who = ${responses.who}`);
+
+		if (responses.who == "everyone") {
+			storageContainer = controller.storage.teams;
+			storageId = message.team;
+		} else if (responses.who == "channel") {
+			storageContainer = controller.storage.channels;
+			storageId = message.channel;
+		}
+		
+		let fact = {
+			who: storageId,
+			what: thingToRemember, 
+			how: responses.how.split('\n').filter(function (x) { return x != 'done'; })
 		};
 
-		var askHow = function (response, convo) {
-			convo.ask('I need some example phrases people will use to find this, say "done" to finish.',
-				function (response, convo) {
-					if (response.text == 'done') {
-						remember(response, convo);
-						convo.next();
-					}
-				}, { key: 'how', multiple: true });
-		};
+		convo.say(`Fact:\n\`\`\`${JSON.stringify(fact, null, 2)}\`\`\``);
 
-		var remember = function (response, convo) {
-			var responses = convo.extractResponses();
-			let fact = {
-				what: thingToRemember,
-				who: responses.who,
-				how: responses.how.split('\n').filter(function (x) { return x != 'done'; })
-			};
+		brain.remember(fact);
 
-			convo.say(`Fact:\n\`\`\`${JSON.stringify(fact, null, 2)}\`\`\``);
+		storageContainer.get(storageId, function (err, data) {
+			data = data || { id: storageId, facts: [] };
+			data.facts.push(fact);
 
-			brain.remember(fact.what, fact.how);
-
-			var storageContainer = controller.storage.users;
-			var storageId = message.user;
-
-			console.log(`responses.who = ${responses.who}`);
-
-			if (responses.who == "everyone") {
-				storageContainer = controller.storage.teams;
-				storageId = message.team;
-			} else if (responses.who == "channel") {
-				storageContainer = controller.storage.channels;
-				storageId = message.channel;
-			}
-
-			storageContainer.get(storageId, function (err, data) {
-				data = data || { id: storageId, facts: [] };
-				data.facts.push(fact);
-
-				storageContainer.save(data, function (err) {
-					bot.reply(message, "Got it!");
-				});
+			storageContainer.save(data, function (err) {
+				bot.reply(message, "Got it!");
 			});
-		};
+		});
+	};
 
-		bot.startConversation(message, askWho);
-	}
+	bot.startConversation(message, askWho);
 }
