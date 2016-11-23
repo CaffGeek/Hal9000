@@ -2,12 +2,14 @@
 
 var trainer = require('./trainer.js');
 var Brain = require('./brain.js');
-var brain = new Brain();
 
 module.exports = {
   init: (controller) => {
+    var brain = new Brain();
+
     controller.storage.teams.all(function(err,data){
         data.facts.forEach(function(fact) {
+          console.log('Reloading past memories')
           brain.remember(fact.what, fact.how);
         });
       });
