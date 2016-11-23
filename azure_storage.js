@@ -22,18 +22,6 @@ module.exports = function(config) {
             }
         }
     );
-
-    // var objectsToList = function(cb) {
-    //     return function(err, data) {
-    //         if (err) {
-    //             cb(err, data);
-    //         } else {
-    //             cb(err, Object.keys(data).map(function(key) {
-    //                 return data[key];
-    //             }));
-    //         }
-    //     };
-    // };
     
     var get = function(id, cb) {
         blobService.getBlobToText(
@@ -62,7 +50,7 @@ module.exports = function(config) {
                 result.entries.forEach(function(entry) {
                     get(entry.name, cb);
                 });
-                
+
                 console.log(`continuationToken: ${result.continuationToken}`);
             });
     };
