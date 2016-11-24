@@ -27,7 +27,7 @@ module.exports = {
             
         if (recollection.guess) {
           bot.reply(message, `Are you looking for ${recollection.guess}`);
-          bot.reply(message, `Other options are: ${JSON.stringify(recollection.guesses, null, 2)}`);
+          bot.reply(message, `Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
           bot.reply(message, `I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
           bot.reply(message, '```\n' + JSON.stringify(recollection, null, 2) + '\n```');
