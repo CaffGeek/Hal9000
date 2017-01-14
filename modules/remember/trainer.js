@@ -9,10 +9,8 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 
 	let thingToRemember = message.match[1];
 
-	var askWho = function (response, convo) {
-		
+	var askWho = function (response, convo) {		
 		//TODO: only give "you/me" option if IN a direct_message with the bot
-
 		convo.ask('Should I remember this just for _you_, this _channel_, or _everyone_?',
 			function (response, convo) {
 				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
@@ -24,7 +22,7 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 	var askHow = function (response, convo) {
 		convo.ask('I need some example phrases people will use to find this, say "done" to finish.',
 			function (response, convo) {
-				if (response.text == 'done') {
+				if (response.text.toLowerCase() == 'done') {
 					remember(response, convo);
 					convo.next();
 				}
@@ -32,16 +30,21 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 	};
 
 	var remember = function (response, convo) {
-		var storageContainer = controller.storage.users;
-		var storageId = message.user;
+		var storageContainer;
+		var storageId;
 
 		var responses = convo.extractResponses();
 		console.log(`responses.who = ${responses.who}`);
 
-		if (responses.who == "everyone") {
+		var who = responses.who.toLowerCase();
+		//TODO: Change to switch statement
+		if (who == "everyone") {
 			storageContainer = controller.storage.teams;
 			storageId = message.team;
-		} else if (responses.who == "channel") {
+		} else if (who == "me" || who == "you") {
+			storageContainer = controller.storage.users;
+			storageId = message.user;
+		} else  {
 			storageContainer = controller.storage.channels;
 			storageId = message.channel;
 		}
