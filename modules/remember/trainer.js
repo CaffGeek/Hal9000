@@ -4,7 +4,7 @@ module.exports = Trainer;
 
 function Trainer() { }
 
-Trainer.prototype.train = function (brain, bot, message, controller) {
+Trainer.prototype.train = function (brain, message, controller) {
 	console.log(JSON.stringify(message, null, 2));
 
 	let thingToRemember = message.match[1];
@@ -83,10 +83,10 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 			data.facts.push(fact);
 
 			storageContainer.save(data, function (err) {
-				bot.reply(message, "Got it!");
+				message.respond("Got it!");
 			});
 		});
 	};
 
-	bot.startConversation(message, askWho);
+	message.startConversation(message, askWho);
 }

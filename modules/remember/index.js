@@ -16,21 +16,21 @@ module.exports = {
       });
 
     controller
-      .hears('^remember (.*)', ['direct_message','direct_mention','mention'], (bot, message) => {
-          trainer.train(brain, bot, message, controller);
+      .hears('^remember (.*)', ['direct_message','direct_mention','mention'], (message) => {
+          trainer.train(brain, message, controller);
       })
-      .hears('.*', ['direct_message','direct_mention','mention'], (bot, message) => {
+      .hears('.*', ['direct_message','direct_mention','mention'], (message) => {
         var recollection = brain.recall(message);
         
         console.log('Heard: ' + message.text);
         console.log('Recollection: ', recollection);
             
         if (recollection.guess) {
-          bot.reply(message, `Are you looking for ${recollection.guess}`);
-          bot.reply(message, `Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
+          message.respond(`Are you looking for ${recollection.guess}`);
+          message.respond(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
-          bot.reply(message, `I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
-          bot.reply(message, '```\n' + JSON.stringify(recollection, null, 2) + '\n```');
+          message.respond(`I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
+          message.respond('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
         }
       });
   },
