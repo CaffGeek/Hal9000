@@ -10,13 +10,34 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 	let thingToRemember = message.match[1];
 
 	var askWho = function (response, convo) {		
-		//TODO: only give "you/me" option if IN a direct_message with the bot
 		convo.ask('Should I remember this just for this _channel_, or _everyone_?',
 			function (response, convo) {
 				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
 				askHow(response, convo);
 				convo.next();
-			}, { key: 'who', multiple: false });
+			}, { 
+				key: 'who', 
+				multiple: false,
+				attachments:[{
+					title: 'Who should I remember this for?',
+					callback_id: '123', //TODO: What is this?
+					attachment_type: 'default',
+					actions: [
+						{
+							"name": "everyone",
+							"text": "Everyone",
+							"value": "everyone",
+							"type": "button"
+						},
+						{
+							"name": "channel",
+							"text": "Channel",
+							"value": "channel",
+							"type": "button"
+						}
+					]
+				}]
+			});
 	};
 
 	var askHow = function (response, convo) {
