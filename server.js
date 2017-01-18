@@ -9,12 +9,11 @@ const Context = require('slapp-context-beepboop')
 var config = require('./config.js');
 var Storage = require('./azure_storage.js');
 
-console.log('config.bot_api_key=%s', config.bot_api_key);
+console.log('config.verify_token=%s', config.verify_token);
 
 var port = config.port;
 
 var slapp = Slapp({
-  // Beep Boop sets the SLACK_VERIFY_TOKEN env var
   verify_token: config.verify_token,
   convo_store: ConvoStore(),
   context: Context()
@@ -22,7 +21,7 @@ var slapp = Slapp({
 
 
 var remember = require('./modules/remember/index.js');
-remember.init(slapp, new Storage());
+remember.init(slapp, new Storage(config));
 
 var server = slapp.attachToExpress(express());
 server.listen(port, (err) => {

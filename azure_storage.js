@@ -3,10 +3,6 @@ var azure = require('azure-storage');
 module.exports = function(config) {
     config = config || {};
     
-    //TODO: change to use config.js
-    config.azureStorageConnection = config.azureStorageConnection || process.env.AZURE_STORAGE_CONNECTION_STRING || "";
-    config.azureContainerName = config.azureContainerName ||  process.env.AZURE_STORAGE_CONTAINER_NAME || "botkitstorage";
-
     console.log('config.azureStorageConnection=%s', config.azureStorageConnection);
     console.log('config.azureContainerName=%s', config.azureContainerName);
     
