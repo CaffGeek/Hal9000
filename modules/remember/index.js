@@ -21,6 +21,9 @@ module.exports = {
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message) => {
           trainer.train(brain, message, storage);
       })
+      .message('^what do you know', ['direct_message','direct_mention','mention'], (message) => {
+        message.respond('this feature is not done yet, sorry');
+      })
       .message('.*', ['direct_message','direct_mention','mention'], (message) => {
         var recollection = brain.recall(message);
         
