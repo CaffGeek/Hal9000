@@ -11,7 +11,7 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 
 	var askWho = function (response, convo) {		
 		//TODO: only give "you/me" option if IN a direct_message with the bot
-		convo.ask('Should I remember this just for _you_, this _channel_, or _everyone_?',
+		convo.ask('Should I remember this just for this _channel_, or _everyone_?',
 			function (response, convo) {
 				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
 				askHow(response, convo);
@@ -41,9 +41,6 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 		if (who == "everyone") {
 			storageContainer = controller.storage.teams;
 			storageId = message.team;
-		} else if (who == "me" || who == "you") {
-			storageContainer = controller.storage.users;
-			storageId = message.user;
 		} else  {
 			storageContainer = controller.storage.channels;
 			storageId = message.channel;
