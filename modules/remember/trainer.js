@@ -10,16 +10,9 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 	let thingToRemember = message.match[1];
 
 	var askWho = function (response, convo) {		
-		convo.ask('Should I remember this just for this _channel_, or _everyone_?',
-			function (response, convo) {
-				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
-				askHow(response, convo);
-				convo.next();
-			}, { 
-				key: 'who', 
-				multiple: false,
+		convo.ask({
 				attachments:[{
-					title: 'Who should I remember this for?',
+					title: 'Should I remember this just for this _channel_, or _everyone_?',
 					callback_id: '123', //TODO: What is this?
 					attachment_type: 'default',
 					actions: [
@@ -37,6 +30,14 @@ Trainer.prototype.train = function (brain, bot, message, controller) {
 						}
 					]
 				}]
+			},
+			function (response, convo) {
+				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
+				askHow(response, convo);
+				convo.next();
+			}, { 
+				key: 'who', 
+				multiple: false
 			});
 	};
 
