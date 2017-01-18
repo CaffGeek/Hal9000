@@ -4,7 +4,7 @@ module.exports = Trainer;
 
 function Trainer() { }
 
-Trainer.prototype.train = function (brain, message, controller) {
+Trainer.prototype.train = function (brain, message, storage) {
 	console.log(JSON.stringify(message, null, 2));
 
 	let thingToRemember = message.match[1];
@@ -61,10 +61,10 @@ Trainer.prototype.train = function (brain, message, controller) {
 		var who = responses.who.toLowerCase();
 		//TODO: Change to switch statement
 		if (who == "everyone") {
-			storageContainer = controller.storage.teams;
+			storageContainer = storage.teams;
 			storageId = message.team;
 		} else  {
-			storageContainer = controller.storage.channels;
+			storageContainer = storage.channels;
 			storageId = message.channel;
 		}
 		

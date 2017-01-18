@@ -4,11 +4,13 @@ var Trainer = require('./trainer.js');
 var Brain = require('./brain.js');
 
 module.exports = {
-  init: (controller) => {
+  init: (controller, storage) => {
+    console.log('storage')
+    console.log(storage);
     var brain = new Brain();
     var trainer = new Trainer();
 
-    controller.storage.teams.all(function(err,data) {
+    storage.teams.all(function(err,data) {
         data.facts.forEach(function(fact) {
           console.log('Reloading past memories')
           brain.remember(fact);
@@ -16,10 +18,10 @@ module.exports = {
       });
 
     controller
-      .hears('^remember (.*)', ['direct_message','direct_mention','mention'], (message) => {
-          trainer.train(brain, message, controller);
+      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message) => {
+          trainer.train(brain, message, storage);
       })
-      .hears('.*', ['direct_message','direct_mention','mention'], (message) => {
+      .message('.*', ['direct_message','direct_mention','mention'], (message) => {
         var recollection = brain.recall(message);
         
         console.log('Heard: ' + message.text);

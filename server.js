@@ -7,7 +7,7 @@ const ConvoStore = require('slapp-convo-beepboop')
 const Context = require('slapp-context-beepboop')
 
 var config = require('./config.js');
-var storage = require('./azure_storage.js');
+var Storage = require('./azure_storage.js');
 
 console.log('config.bot_api_key=%s', config.bot_api_key);
 
@@ -22,7 +22,7 @@ var slapp = Slapp({
 
 
 var remember = require('./modules/remember/index.js');
-remember.init(slapp);
+remember.init(slapp, new Storage());
 
 var server = slapp.attachToExpress(express());
 server.listen(port, (err) => {
