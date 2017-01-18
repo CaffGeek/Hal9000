@@ -27,9 +27,7 @@ Brain.prototype.remember = function (fact) {
 	return this;
 };
 
-Brain.prototype.recall = function(message) {
-	console.log(`Message: ${JSON.stringify(message)}`);
-	
+Brain.prototype.recall = function(message) {	
 	var guesses = [];
 	
 	//TODO: only give "you/me" option if IN a direct_message with the bot

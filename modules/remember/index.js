@@ -18,13 +18,24 @@ module.exports = {
       });
 
     controller
-      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message) => {
-          trainer.train(brain, message, storage);
+      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (msg, text) => {
+        trainer.train(brain, msg, storage);
       })
-      .message('^what do you know', ['direct_message','direct_mention','mention'], (message) => {
-        message.respond('this feature is not done yet, sorry');
+      .message('^what do you know', ['direct_message','direct_mention','mention'], (msg, text) => {
+        msg.respond('this feature is not done yet, sorry');
       })
-      .message('.*', ['direct_message','direct_mention','mention'], (message) => {
+      .message('.*', ['direct_message','direct_mention','mention'], (msg, text) => {
+        console.log(`msg: ${JSON.stringify(msg)}`);
+
+        var message = {
+          user: message.event.user,
+          channel: message.event.channel,
+          team: message.team_id,
+          text: message.event.text,
+        };
+
+        console.log(`message: ${JSON.stringify(message)}`);
+
         var recollection = brain.recall(message);
         
         console.log('Heard: ' + message.text);
