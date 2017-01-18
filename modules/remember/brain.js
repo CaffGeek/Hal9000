@@ -42,9 +42,9 @@ Brain.prototype.recall = function(message) {
 	if (message.team in this.classifiers) guesses = 
 		guesses.concat(this.classifiers[message.team].getClassifications(message.text.toLowerCase()));
 
-	var guess = guesses.reduce(function (x, y) {
+	var guess = guesses.length ? guesses.reduce(function (x, y) {
 		return x && x.value > y.value ? x : y;
-	});
+	}) : { /* got nothing */ };
 
 	return {
 		probabilities: guesses,
