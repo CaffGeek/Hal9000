@@ -43,10 +43,10 @@ module.exports = {
             
         if (recollection.guess) {
           message.say(`Are you looking for ${recollection.guess}`);
-          message.say(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
+          console.log(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
           message.say(`I'm sorry ~Dave~ <@${messageInfo.user}> I can't let you do that...`);
-          message.say('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
+          console.log('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
         }
       });
   },
