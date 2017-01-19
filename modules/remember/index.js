@@ -28,10 +28,10 @@ module.exports = {
         console.log(`msg: ${JSON.stringify(msg)}`);
 
         var message = {
-          user: message.event.user,
-          channel: message.event.channel,
-          team: message.team_id,
-          text: message.event.text,
+          user: msg.event.user,
+          channel: msg.event.channel,
+          team: msg.team_id,
+          text: msg.event.text,
         };
 
         console.log(`message: ${JSON.stringify(message)}`);
