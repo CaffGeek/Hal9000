@@ -18,11 +18,11 @@ module.exports = {
       });
 
     controller
-      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (msg, text) => {
-        trainer.train(brain, msg, storage);
+      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
+        trainer.train(brain, message, storage);
       })
-      .message('^what do you know', ['direct_message','direct_mention','mention'], (msg, text) => {
-        msg.respond('this feature is not done yet, sorry');
+      .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
+        message.say('this feature is not done yet, sorry');
       })
       .message('.*', ['direct_message','direct_mention','mention'], (message, text) => {
         console.log(`msg: ${JSON.stringify(message)}`);
