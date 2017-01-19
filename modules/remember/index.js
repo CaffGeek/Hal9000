@@ -24,28 +24,28 @@ module.exports = {
       .message('^what do you know', ['direct_message','direct_mention','mention'], (msg, text) => {
         msg.respond('this feature is not done yet, sorry');
       })
-      .message('.*', ['direct_message','direct_mention','mention'], (msg, text) => {
-        console.log(`msg: ${JSON.stringify(msg)}`);
+      .message('.*', ['direct_message','direct_mention','mention'], (message, text) => {
+        console.log(`msg: ${JSON.stringify(message)}`);
 
-        var message = {
-          user: msg.body.event.user,
-          channel: msg.body.event.channel,
-          team: msg.body.team_id,
-          text: msg.body.event.text,
+        var messageInfo = {
+          user: message.body.event.user,
+          channel: message.body.event.channel,
+          team: message.body.team_id,
+          text: message.body.event.text,
         };
 
-        console.log(`message: ${JSON.stringify(message)}`);
+        console.log(`message: ${JSON.stringify(messageInfo)}`);
 
-        var recollection = brain.recall(message);
+        var recollection = brain.recall(messageInfo);
         
-        console.log('Heard: ' + message.text);
+        console.log('Heard: ' + messageInfo.text);
         console.log('Recollection: ', recollection);
             
         if (recollection.guess) {
           message.respond(`Are you looking for ${recollection.guess}`);
           message.respond(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
-          message.respond(`I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
+          message.respond(`I'm sorry ~Dave~ <@${messageInfo.user}> I can't let you do that...`);
           message.respond('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
         }
       });
