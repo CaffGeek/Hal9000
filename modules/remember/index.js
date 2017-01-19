@@ -42,11 +42,11 @@ module.exports = {
         console.log('Recollection: ', recollection);
             
         if (recollection.guess) {
-          message.respond(`Are you looking for ${recollection.guess}`);
-          message.respond(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
+          message.say(`Are you looking for ${recollection.guess}`);
+          message.say(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
-          message.respond(`I'm sorry ~Dave~ <@${messageInfo.user}> I can't let you do that...`);
-          message.respond('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
+          message.say(`I'm sorry ~Dave~ <@${messageInfo.user}> I can't let you do that...`);
+          message.say('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
         }
       });
   },
