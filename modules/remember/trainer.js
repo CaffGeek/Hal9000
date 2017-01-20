@@ -10,47 +10,10 @@ Trainer.prototype.train = function (brain, message, storage) {
 	console.log(JSON.stringify(message, null, 2));
 
 	let thingToRemember = message.body.event.text;
-	//   user: message.body.event.user,
-	//   channel: message.body.event.channel,
-	//   team: message.body.team_id,
-        
-	message
-		.say({
-			text: 'Who should I remember this for?',
-			attachments: [
-				{
-				text: '',
-				fallback: 'Everyone or Channel?',
-				actions: [
-					{ name: 'everyone', text: 'Everyone', type: 'button', value: 'everyone' },
-					{ name: 'channel', text: 'Channel', type: 'button', value: 'channel' }
-				]
-			}]
-		})
-		.route('handleWho');
+    
+	this.askWho();
 
-	// var askWho = function (response, convo) {		
-	// 	convo.ask({
-	// 		attachments:[{
-	// 			title: 'Should I remember this just for this _channel_, or _everyone_?',
-	// 			callback_id: '123', //TODO: What is this?
-	// 			attachment_type: 'default',
-	// 			actions: [
-	// 				{
-	// 					"name": "everyone",
-	// 					"text": "Everyone",
-	// 					"value": "everyone",
-	// 					"type": "button"
-	// 				},
-	// 				{
-	// 					"name": "channel",
-	// 					"text": "Channel",
-	// 					"value": "channel",
-	// 					"type": "button"
-	// 				}
-	// 			]
-	// 		}]
-	// 	},
+	
 	// 	function (response, convo) {
 	// 		convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
 	// 		askHow(response, convo);
@@ -82,10 +45,10 @@ Trainer.prototype.train = function (brain, message, storage) {
 	// 	//TODO: Change to switch statement
 	// 	if (who == "everyone") {
 	// 		storageContainer = storage.teams;
-	// 		storageId = message.team;
+	// 		storageId = message.body.team_id;
 	// 	} else  {
 	// 		storageContainer = storage.channels;
-	// 		storageId = message.channel;
+	// 		storageId = message.body.event.channel;
 	// 	}
 		
 	// 	let fact = {
@@ -111,11 +74,28 @@ Trainer.prototype.train = function (brain, message, storage) {
 	// message.startConversation(message, askWho);
 };
 
+Trainer.prototype.handleWho = function (message, x, y) { trainer.askHow(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
+Trainer.prototype.handleHow = function (message, x, y) { trainer.remember(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
 
-Trainer.prototype.handleWho = function (message) {
-	message.say('hi')
+Trainer.prototype.askWho = function () {	
+	message
+		.say({
+			text: 'Who should I remember this for?',
+			attachments: [{
+				text: '',
+				fallback: 'Everyone or Channel?',
+          		callback_id: 'handleWho',
+				actions: [
+					{ name: 'everyone', text: 'Everyone', type: 'button', value: 'everyone' },
+					{ name: 'channel', text: 'Channel', type: 'button', value: 'channel' }
+				]
+			}]
+		});
 };
 
-Trainer.prototype.handleHow = function (message) {
-
+Trainer.prototype.askHow = function (message) {
+	message
+		.say({
+			text: 'I need some example phrases people will use to find this, say "done" to finish.'
+		});
 };

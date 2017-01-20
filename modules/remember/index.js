@@ -21,8 +21,8 @@ module.exports = {
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
         trainer.train(brain, message, storage);
       })
-      .route('handleWho', trainer.handleWho)
-      .route('handleHow', trainer.handleHow)
+      .action('handleWho', trainer.handleWho)
+      .action('handleHow', trainer.handleHow)
       .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
         message.say('this feature is not done yet, sorry');
       })
