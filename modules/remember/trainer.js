@@ -9,8 +9,11 @@ function Trainer() { }
 Trainer.prototype.train = function (brain, message, storage) {
 	console.log(JSON.stringify(message, null, 2));
 
-	let thingToRemember = message.text;
-
+	let thingToRemember = message.body.event.text;
+	//   user: message.body.event.user,
+	//   channel: message.body.event.channel,
+	//   team: message.body.team_id,
+        
 	message
 		.say({
 			text: 'Who should I remember this for?',
