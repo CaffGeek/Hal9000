@@ -89,6 +89,7 @@ Trainer.prototype.askWho = function (message, state) {
 };
 
 Trainer.prototype.handleWho = function (message, state) {
+	message.respond('response test');
 	//TODO: show selection
     //TODO: hide buttons somehow
 };
