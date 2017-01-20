@@ -12,27 +12,18 @@ Trainer.prototype.train = function (brain, message, storage) {
 	let thingToRemember = message.text;
 
 	message
-		.say(smb()
-			.text('Who should I remember this for?')
-			.attachment()
-				.text('Pick one:')
-				.fallback("error or something")
-				.callback_id('whoscope')
-				.color("#3AA3E3")
-				.action()
-					.name("everyone")
-					.text("Everyone")
-					.type("button")
-					.value("everyone")
-				.end()
-				.action()
-					.name("channel")
-					.text("Channel")
-					.type("button")
-					.value("channel")
-				.end()
-			.end()
-			.json())
+		.say({
+			text: 'Who should I remember this for?',
+			attachments: [
+				{
+				text: '',
+				fallback: 'Everyone or Channel?',
+				actions: [
+					{ name: 'everyone', text: 'Everyone', type: 'button', value: 'everyone' },
+					{ name: 'channel', text: 'Channel', type: 'button', value: 'channel' }
+				]
+			}]
+		})
 		.route('handleWho');
 
 	// var askWho = function (response, convo) {		
