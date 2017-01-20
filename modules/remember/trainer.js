@@ -77,7 +77,7 @@ Trainer.prototype.train = function (brain, message, storage) {
 Trainer.prototype.handleWho = function (message, x, y) { trainer.askHow(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
 Trainer.prototype.handleHow = function (message, x, y) { trainer.remember(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
 
-Trainer.prototype.askWho = function () {	
+Trainer.prototype.askWho = function (message) {	
 	message
 		.say({
 			text: 'Who should I remember this for?',
