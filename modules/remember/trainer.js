@@ -1,5 +1,7 @@
 'use strict';
 
+const smb = require('slack-message-builder')
+
 module.exports = Trainer;
 
 function Trainer() { }
@@ -9,84 +11,117 @@ Trainer.prototype.train = function (brain, message, storage) {
 
 	let thingToRemember = message.text;
 
-	var askWho = function (response, convo) {		
-		convo.ask({
-				attachments:[{
-					title: 'Should I remember this just for this _channel_, or _everyone_?',
-					callback_id: '123', //TODO: What is this?
-					attachment_type: 'default',
-					actions: [
-						{
-							"name": "everyone",
-							"text": "Everyone",
-							"value": "everyone",
-							"type": "button"
-						},
-						{
-							"name": "channel",
-							"text": "Channel",
-							"value": "channel",
-							"type": "button"
-						}
-					]
-				}]
-			},
-			function (response, convo) {
-				convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
-				askHow(response, convo);
-				convo.next();
-			}, { 
-				key: 'who', 
-				multiple: false
-			});
-	};
+	message
+		.say(smb()
+			.text('Who should I remember this for?')
+			.attachment()
+				.text('Pick one:')
+				.fallback("error or something")
+				.callback_id('whoscope')
+				.color("#3AA3E3")
+				.action()
+					.name("everyone")
+					.text("Everyone")
+					.type("button")
+					.value("everyone")
+				.end()
+				.action()
+					.name("channel")
+					.text("Channel")
+					.type("button")
+					.value("channel")
+				.end()
+			.end()
+			.json())
+		.route('handleWho');
 
-	var askHow = function (response, convo) {
-		convo.ask('I need some example phrases people will use to find this, say "done" to finish.',
-			function (response, convo) {
-				if (response.text.toLowerCase() == 'done') {
-					remember(response, convo);
-					convo.next();
-				}
-			}, { key: 'how', multiple: true });
-	};
+	// var askWho = function (response, convo) {		
+	// 	convo.ask({
+	// 		attachments:[{
+	// 			title: 'Should I remember this just for this _channel_, or _everyone_?',
+	// 			callback_id: '123', //TODO: What is this?
+	// 			attachment_type: 'default',
+	// 			actions: [
+	// 				{
+	// 					"name": "everyone",
+	// 					"text": "Everyone",
+	// 					"value": "everyone",
+	// 					"type": "button"
+	// 				},
+	// 				{
+	// 					"name": "channel",
+	// 					"text": "Channel",
+	// 					"value": "channel",
+	// 					"type": "button"
+	// 				}
+	// 			]
+	// 		}]
+	// 	},
+	// 	function (response, convo) {
+	// 		convo.say(`Ok, I will remember "${thingToRemember}" for ${response.text}.`)
+	// 		askHow(response, convo);
+	// 		convo.next();
+	// 	}, { 
+	// 		key: 'who', 
+	// 		multiple: false
+	// 	});
+	// };
 
-	var remember = function (response, convo) {
-		var storageContainer;
-		var storageId;
+	// var askHow = function (response, convo) {
+	// 	convo.ask('I need some example phrases people will use to find this, say "done" to finish.',
+	// 		function (response, convo) {
+	// 			if (response.text.toLowerCase() == 'done') {
+	// 				remember(response, convo);
+	// 				convo.next();
+	// 			}
+	// 		}, { key: 'how', multiple: true });
+	// };
 
-		var responses = convo.extractResponses();
-		console.log(`responses.who = ${responses.who}`);
+	// var remember = function (response, convo) {
+	// 	var storageContainer;
+	// 	var storageId;
 
-		var who = responses.who.toLowerCase();
-		//TODO: Change to switch statement
-		if (who == "everyone") {
-			storageContainer = storage.teams;
-			storageId = message.team;
-		} else  {
-			storageContainer = storage.channels;
-			storageId = message.channel;
-		}
+	// 	var responses = convo.extractResponses();
+	// 	console.log(`responses.who = ${responses.who}`);
+
+	// 	var who = responses.who.toLowerCase();
+	// 	//TODO: Change to switch statement
+	// 	if (who == "everyone") {
+	// 		storageContainer = storage.teams;
+	// 		storageId = message.team;
+	// 	} else  {
+	// 		storageContainer = storage.channels;
+	// 		storageId = message.channel;
+	// 	}
 		
-		let fact = {
-			who: storageId,
-			what: thingToRemember, 
-			how: responses.how.split('\n').filter(function (x) { return x != 'done'; })
-		};
+	// 	let fact = {
+	// 		who: storageId,
+	// 		what: thingToRemember, 
+	// 		how: responses.how.split('\n').filter(function (x) { return x != 'done'; })
+	// 	};
 
-		convo.say(`Fact:\n\`\`\`${JSON.stringify(fact, null, 2)}\`\`\``);
+	// 	convo.say(`Fact:\n\`\`\`${JSON.stringify(fact, null, 2)}\`\`\``);
 
-		brain.remember(fact);
+	// 	brain.remember(fact);
 
-		storageContainer.get(storageId, function (err, data) {
-			data = data || { id: storageId, facts: [] };
-			data.facts.push(fact);
+	// 	storageContainer.get(storageId, function (err, data) {
+	// 		data = data || { id: storageId, facts: [] };
+	// 		data.facts.push(fact);
 
-			storageContainer.save(data, function (err) {
-				message.respond("Got it!");
-			});
-		});
-	};
+	// 		storageContainer.save(data, function (err) {
+	// 			message.respond("Got it!");
+	// 		});
+	// 	});
+	// };
 
-	message.startConversation(message, askWho);
-}
+	// message.startConversation(message, askWho);
+};
+
+
+Trainer.prototype.handleWho = function (message) {
+	message.say('hi')
+};
+
+Trainer.prototype.handleHow = function (message) {
+
+};

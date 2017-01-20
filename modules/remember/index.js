@@ -8,7 +8,7 @@ module.exports = {
     console.log('storage')
     console.log(storage);
     var brain = new Brain();
-    var trainer = new Trainer();
+    var trainer = new Trainer(controller);
 
     storage.teams.all(function(err,data) {
         data.facts.forEach(function(fact) {
@@ -19,6 +19,7 @@ module.exports = {
 
     controller
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
+        //TODO: remove duplication
         var messageInfo = {
           user: message.body.event.user,
           channel: message.body.event.channel,
@@ -28,12 +29,15 @@ module.exports = {
 
         trainer.train(brain, messageInfo, storage);
       })
+      .route('handleWho', trainer.handleWho)
+      .route('handleHow', trainer.handleHow)
       .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
         message.say('this feature is not done yet, sorry');
       })
       .message('.*', ['direct_message','direct_mention','mention'], (message, text) => {
         console.log(`msg: ${JSON.stringify(message)}`);
 
+        //TODO: remove duplication
         var messageInfo = {
           user: message.body.event.user,
           channel: message.body.event.channel,
