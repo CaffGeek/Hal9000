@@ -21,10 +21,10 @@ module.exports = {
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
         trainer.train(brain, message, storage);
       })
-      .route('handleWho', (message, state) => {
+      .action('handleWho', (message, state) => {
         trainer.askHow(message, state); 
       })
-      .route('handleHow', (message, state) => {
+      .action('handleHow', (message, state) => {
         trainer.remember(message, state); 
       })
       .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
