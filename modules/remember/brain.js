@@ -30,10 +30,6 @@ Brain.prototype.remember = function (fact) {
 Brain.prototype.recall = function(message) {	
 	var guesses = [];
 	
-	//TODO: only give "you/me" option if IN a direct_message with the bot
-	if (message.user in this.classifiers) 
-		guesses = guesses.concat(this.classifiers[message.user].getClassifications(message.text.toLowerCase()));
-	
 	if (message.channel in this.classifiers) 
 		guesses = guesses.concat(this.classifiers[message.channel].getClassifications(message.text.toLowerCase()));
 	

@@ -19,7 +19,14 @@ module.exports = {
 
     controller
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
-        trainer.train(brain, message, storage);
+        var messageInfo = {
+          user: message.body.event.user,
+          channel: message.body.event.channel,
+          team: message.body.team_id,
+          text: message.body.event.text,
+        };
+
+        trainer.train(brain, messageInfo, storage);
       })
       .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
         message.say('this feature is not done yet, sorry');

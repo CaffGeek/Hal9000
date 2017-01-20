@@ -7,7 +7,7 @@ function Trainer() { }
 Trainer.prototype.train = function (brain, message, storage) {
 	console.log(JSON.stringify(message, null, 2));
 
-	let thingToRemember = message.match[1];
+	let thingToRemember = message.text;
 
 	var askWho = function (response, convo) {		
 		convo.ask({
