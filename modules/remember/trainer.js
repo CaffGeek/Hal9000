@@ -88,11 +88,20 @@ Trainer.prototype.askWho = function (message, state) {
 		});
 };
 
+Trainer.prototype.handleWho = function (message, state) {
+	//TODO: show selection
+    //TODO: hide buttons somehow
+};
+
 Trainer.prototype.askHow = function (message, state) {
 	message
 		.say({
 			text: 'I need some example phrases people will use to find this, say "done" to finish.'
 		});
+};
+
+Trainer.prototype.handleHow = function (message, state) {
+	//Something to check for "done"
 };
 
 Trainer.prototype.remember = function (message, state) {
