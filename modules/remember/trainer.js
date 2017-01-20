@@ -11,7 +11,7 @@ Trainer.prototype.train = function (brain, message, storage) {
 
 	let thingToRemember = message.body.event.text;
     
-	this.askWho();
+	this.askWho(message);
 
 	
 	// 	function (response, convo) {
