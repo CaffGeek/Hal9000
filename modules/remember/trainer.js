@@ -74,8 +74,8 @@ Trainer.prototype.train = function (brain, message, storage) {
 	// message.startConversation(message, askWho);
 };
 
-Trainer.prototype.handleWho = function (message, x, y) { trainer.askHow(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
-Trainer.prototype.handleHow = function (message, x, y) { trainer.remember(message); message.say(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); message.say(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); };
+Trainer.prototype.handleWho = function (message, x, y) { console.log(`message:\n\`\`\`${JSON.stringify(message, null, 2)}\`\`\``); console.log(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); console.log(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); trainer.askHow(message); };
+Trainer.prototype.handleHow = function (message, x, y) { console.log(`message:\n\`\`\`${JSON.stringify(message, null, 2)}\`\`\``); console.log(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); console.log(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); trainer.remember(message); };
 
 Trainer.prototype.askWho = function (message) {	
 	message
