@@ -19,7 +19,7 @@ module.exports = {
 
     controller
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
-        trainer.train(brain, messageInfo, storage);
+        trainer.train(brain, message, storage);
       })
       .route('handleWho', trainer.handleWho)
       .route('handleHow', trainer.handleHow)
