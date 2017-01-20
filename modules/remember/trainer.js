@@ -1,7 +1,5 @@
 'use strict';
 
-const smb = require('slack-message-builder')
-
 module.exports = Trainer;
 
 function Trainer() { }
@@ -74,16 +72,7 @@ Trainer.prototype.train = function (brain, message, storage) {
 	// message.startConversation(message, askWho);
 };
 
-Trainer.prototype.handleWho = function (message, x, y) { 
-	// console.log(`message:\n\`\`\`${JSON.stringify(message, null, 2)}\`\`\``); 
-	// console.log(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); 
-	// console.log(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); 
-	console.log(`this: ${this}`);
-	this.askHow(message); 
-};
-Trainer.prototype.handleHow = function (message, x, y) { this.remember(message); };
-
-Trainer.prototype.askWho = function (message) {	
+Trainer.prototype.askWho = function (message, state) {	
 	message
 		.say({
 			text: 'Who should I remember this for?',
@@ -99,7 +88,14 @@ Trainer.prototype.askWho = function (message) {
 		});
 };
 
-Trainer.prototype.askHow = function (message) {
+Trainer.prototype.askHow = function (message, state) {
+	message
+		.say({
+			text: 'I need some example phrases people will use to find this, say "done" to finish.'
+		});
+};
+
+Trainer.prototype.remember = function (message, state) {
 	message
 		.say({
 			text: 'I need some example phrases people will use to find this, say "done" to finish.'
