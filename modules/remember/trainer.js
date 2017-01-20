@@ -72,33 +72,31 @@ Trainer.prototype.train = function (brain, message, storage) {
 	// message.startConversation(message, askWho);
 };
 
-Trainer.prototype.askWho = function (message, state) {	
+Trainer.prototype.askWho = function (message, state) {
 	message
 		.say({
 			text: 'Who should I remember this for?',
 			attachments: [{
 				text: '',
 				fallback: 'Everyone or Channel?',
-          		callback_id: 'handleWho',
+          		callback_id: 'handle_who_callback',
 				actions: [
 					{ name: 'everyone', text: 'Everyone', type: 'button', value: 'everyone' },
 					{ name: 'channel', text: 'Channel', type: 'button', value: 'channel' }
 				]
 			}]
-		});
+		})
+		.route('handleWho', state, 60);
 };
 
 Trainer.prototype.handleWho = function (message, state) {
-	message.respond('response test');
+	message.respond('debug in handleWho');
 	//TODO: show selection
     //TODO: hide buttons somehow
 };
 
 Trainer.prototype.askHow = function (message, state) {
-	message
-		.say({
-			text: 'I need some example phrases people will use to find this, say "done" to finish.'
-		});
+	message.respond('I need some example phrases people will use to find this, say "done" to finish.');
 };
 
 Trainer.prototype.handleHow = function (message, state) {
