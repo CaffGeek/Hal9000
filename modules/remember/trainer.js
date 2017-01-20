@@ -78,6 +78,7 @@ Trainer.prototype.handleWho = function (message, x, y) {
 	// console.log(`message:\n\`\`\`${JSON.stringify(message, null, 2)}\`\`\``); 
 	// console.log(`x:\n\`\`\`${JSON.stringify(x, null, 2)}\`\`\``); 
 	// console.log(`y:\n\`\`\`${JSON.stringify(y, null, 2)}\`\`\``); 
+	console.log(`this: ${this}`);
 	this.askHow(message); 
 };
 Trainer.prototype.handleHow = function (message, x, y) { this.remember(message); };
