@@ -22,10 +22,12 @@ module.exports = {
         trainer.train(brain, message, storage);
       })
       .action('handleWho', (message, state) => {
+	      message.respond('debug in action handleWho');
         trainer.handleWho(message,state);
         trainer.askHow(message, state); 
       })
       .action('handleHow', (message, state) => {
+	      message.respond('debug in action handleHow');
         trainer.handleHow(message, state);
         trainer.remember(message, state); 
       })
