@@ -79,14 +79,13 @@ Trainer.prototype.askWho = function (message, state) {
 			attachments: [{
 				text: '',
 				fallback: 'Everyone or Channel?',
-          		callback_id: 'handle_who_callback',
+          		callback_id: 'handleWho',
 				actions: [
 					{ name: 'everyone', text: 'Everyone', type: 'button', value: 'everyone' },
 					{ name: 'channel', text: 'Channel', type: 'button', value: 'channel' }
 				]
 			}]
-		})
-		.route('handleWho', state, 60);
+		});
 };
 
 Trainer.prototype.handleWho = function (message, state) {
