@@ -21,17 +21,11 @@ module.exports = {
       .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
         trainer.train(brain, message, storage);
       })
-      .action('handleWho', (message, state) => {
-	      message.respond('debug in action handleWho');
-        setTimeout(function () { console.log('waiting...'); }, 3000);
-        
+      .action('handleWho', (message, state) => {        
         trainer.handleWho(message,state);
         trainer.askHow(message, state); 
       })
       .action('handleHow', (message, state) => {
-	      message.respond('debug in action handleHow');
-        setTimeout(function () { console.log('waiting...'); }, 3000);
-
         trainer.handleHow(message, state);
         trainer.remember(message, state); 
       })
