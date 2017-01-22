@@ -90,20 +90,23 @@ Trainer.prototype.askWho = function (message, state) {
 };
 
 Trainer.prototype.handleWho = function (message, state) {
-	message.respond('debug in handleWho');
+	message.respond('debug in Trainer.prototype.handleWho');
 	//TODO: show selection
     //TODO: hide buttons somehow
 };
 
 Trainer.prototype.askHow = function (message, state) {
+	message.respond('debug in Trainer.prototype.askHow');
 	message.respond('I need some example phrases people will use to find this, say "done" to finish.');
 };
 
 Trainer.prototype.handleHow = function (message, state) {
+	message.respond('debug in Trainer.prototype.handleHow');
 	//Something to check for "done"
 };
 
 Trainer.prototype.remember = function (message, state) {
+	message.respond('debug in Trainer.prototype.remember');
 	message
 		.say({
 			text: 'I need some example phrases people will use to find this, say "done" to finish.'
