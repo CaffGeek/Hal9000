@@ -4,13 +4,11 @@ var Trainer = require('./trainer.js');
 var Brain = require('./brain.js');
 
 module.exports = {
-  init: (controller, storage) => {
-    console.log('storage')
-    console.log(storage);
+  init: (controller) => {
     var brain = new Brain();
-    var trainer = new Trainer(controller);
+    var trainer = new Trainer();
 
-    storage.teams.all(function(err,data) {
+    controller.storage.teams.all(function(err,data) {
         data.facts.forEach(function(fact) {
           console.log('Reloading past memories')
           brain.remember(fact);
@@ -18,43 +16,21 @@ module.exports = {
       });
 
     controller
-      .message('^remember (.*)', ['direct_message','direct_mention','mention'], (message, text) => {
-        trainer.train(brain, message, storage);
+      .hears('^remember (.*)', ['direct_message','direct_mention','mention'], (bot, message) => {
+          trainer.train(brain, bot, message, controller);
       })
-      .action('handleWho', (message, state) => {        
-        trainer.handleWho(message,state);
-        trainer.askHow(message, state); 
-      })
-      .action('handleHow', (message, state) => {
-        trainer.handleHow(message, state);
-        trainer.remember(message, state); 
-      })
-      .message('^what do you know', ['direct_message','direct_mention','mention'], (message, text) => {
-        message.say('this feature is not done yet, sorry');
-      })
-      .message('.*', ['direct_message','direct_mention','mention'], (message, text) => {
-        console.log(`msg: ${JSON.stringify(message)}`);
-
-        var messageInfo = {
-          user: message.body.event.user,
-          channel: message.body.event.channel,
-          team: message.body.team_id,
-          text: message.body.event.text,
-        };
-
-        console.log(`message: ${JSON.stringify(messageInfo)}`);
-
-        var recollection = brain.recall(messageInfo);
+      .hears('.*', ['direct_message','direct_mention','mention'], (bot, message) => {
+        var recollection = brain.recall(message);
         
-        console.log('Heard: ' + messageInfo.text);
+        console.log('Heard: ' + message.text);
         console.log('Recollection: ', recollection);
             
         if (recollection.guess) {
-          message.say(`Are you looking for ${recollection.guess}`);
-          console.log(`Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
+          bot.reply(message, `Are you looking for ${recollection.guess}`);
+          bot.reply(message, `Other options are: ${JSON.stringify(recollection.probabilities, null, 2)}`);
         } else {
-          message.say(`I'm sorry ~Dave~ <@${messageInfo.user}> I can't let you do that...`);
-          console.log('```\n' + JSON.stringify(recollection, null, 2) + '\n```');
+          bot.reply(message, `I'm sorry ~Dave~ <@${message.user}> I can't let you do that...`);
+          bot.reply(message, '```\n' + JSON.stringify(recollection, null, 2) + '\n```');
         }
       });
   },
