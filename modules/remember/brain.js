@@ -22,6 +22,7 @@ Brain.prototype.remember = function (fact) {
 		classifier.addDocument(phrase.toLowerCase(), fact.what);
 	}.bind(this));
 
+	console.log(`done training`);
 	classifier.train();
 
 	return this;
